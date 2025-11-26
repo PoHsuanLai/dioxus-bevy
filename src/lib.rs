@@ -32,7 +32,7 @@
 //! ```
 
 use dioxus::prelude::*;
-use dioxus_core::{use_hook_with_cleanup, consume_context};
+use dioxus_core::use_hook_with_cleanup;
 use dioxus_native::{CustomPaintCtx, CustomPaintSource, DeviceHandle, TextureHandle, DioxusNativeWindowRenderer};
 use std::any::Any;
 use std::collections::HashMap;
@@ -53,7 +53,7 @@ pub trait BevyRenderer: Send {
     fn suspend(&mut self) {}
 
     /// Resume (reinitialize when shown)
-    fn resume(&mut self, device: &DeviceHandle) {}
+    fn resume(&mut self, _device: &DeviceHandle) {}
 
     /// Shutdown (cleanup before destruction)
     fn shutdown(&mut self) {}
@@ -220,11 +220,7 @@ impl BevyInstanceManager {
         if let Some(instance) = inner.instances.get_mut(bevy_id) {
             if let Some(renderer) = &mut instance.renderer {
                 renderer.handle_message(msg);
-            } else {
-                tracing::warn!("⚠️  Attempted to send message to Bevy instance '{}' before renderer was initialized", bevy_id);
             }
-        } else {
-            tracing::warn!("⚠️  Attempted to send message to non-existent Bevy instance '{}'", bevy_id);
         }
     }
 }
