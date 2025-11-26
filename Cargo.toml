@@ -1,3 +1,6 @@
+[workspace]
+# This is a standalone crate, not part of a workspace
+
 [package]
 name = "dioxus-bevy"
 version = "0.1.0"
