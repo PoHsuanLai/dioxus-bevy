@@ -8,6 +8,7 @@ license = "MIT"
 repository = "https://github.com/PoHsuanLai/dioxus-bevy"
 keywords = ["bevy", "dioxus", "ui", "renderer", "gpu"]
 categories = ["gui", "rendering", "graphics"]
+exclude = ["assets/*"]
 
 [dependencies]
 bevy = { version = "0.17", default-features = false, features = ["bevy_render", "bevy_core_pipeline", "bevy_winit"] }
