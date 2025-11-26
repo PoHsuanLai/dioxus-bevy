@@ -1,4 +1,5 @@
 [workspace]
+members = ["dioxus-bevy-macro"]
 # This is a standalone crate, not part of a workspace
 
 [package]
@@ -13,9 +14,12 @@ keywords = ["bevy", "dioxus", "ui", "renderer", "gpu"]
 categories = ["gui", "rendering", "graphics"]
 
 [dependencies]
-bevy = { version = "0.17", default-features = false, features = ["bevy_render", "bevy_core_pipeline"] }
-dioxus = { version = "0.7", features = ["desktop"] }
+bevy = { version = "0.17", default-features = false, features = ["bevy_render", "bevy_core_pipeline", "bevy_winit"] }
+dioxus = "0.7"
 dioxus-native = "0.7"
+wgpu = "26"
+dioxus-bevy-macro = { path = "dioxus-bevy-macro" }
+crossbeam-channel = "0.5"
 
 [dev-dependencies]
 bevy = "0.17"
@@ -27,3 +31,7 @@ path = "examples/hello_triangle.rs"
 [[example]]
 name = "interactive_cube"
 path = "examples/interactive_cube.rs"
+
+[[example]]
+name = "gltf_model"
+path = "examples/gltf_model.rs"
