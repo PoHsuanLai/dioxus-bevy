@@ -4,7 +4,7 @@
 
 [![Crates.io](https://img.shields.io/crates/v/dioxus-bevy.svg)](https://crates.io/crates/dioxus-bevy)
 [![Documentation](https://docs.rs/dioxus-bevy/badge.svg)](https://docs.rs/dioxus-bevy)
-[![License](https://img.shields.io/crates/l/dioxus-bevy.svg)](https://github.com/yourusername/dioxus-bevy#license)
+[![License](https://img.shields.io/crates/l/dioxus-bevy.svg)](https://github.com/PoHsuanLai/dioxus-bevy#license)
 
 This crate is just a simple integration layer between [Bevy](https://bevyengine.org/)'s rendering engine and [Dioxus](https://dioxuslabs.com/), reducing boilerplate and lets you use bevy just like other dioxus components. 
 
