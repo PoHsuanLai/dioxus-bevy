@@ -24,27 +24,25 @@ bevy = { version = "0.17", default-features = false, features = ["bevy_render", 
 
 ## A Quick View
 ```rust
+use dioxus::prelude::*;
+use dioxus_bevy::{BevyComponent};
+
+fn main() {
+    dioxus_native::launch_cfg(App, Vec::new(), dioxus_bevy::config());
+}
+
 #[component]
 fn App() -> Element {
     rsx! {
-        div {
-            div {
-                "This is from Dioxus"
-            }
-
-            div {
-                TriangleScene {}
-            }
-        }
+        MyComponent {}
     }
 }
 
 #[bevy_component]
-fn triangle_scene(app: &mut App) {
-    app.add_systems(Startup, setup_triangle);
+fn my_component(app: &mut App) {
+    app.add_systems(Startup, setup);
 }
 ```
-For more details see the _hello_triangle_ example
 
 ## Examples
 Run the examples:

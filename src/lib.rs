@@ -2,32 +2,33 @@
 //!
 //! Embed Bevy rendering in Dioxus Native applications with proper lifecycle management.
 //!
-//! This crate provides a clean integration layer between Bevy's rendering engine and
-//! Dioxus's reactive UI framework, handling the complex lifecycle issues that arise when
-//! embedding GPU-accelerated Bevy apps inside Dioxus components.
+//! This crate provides a simple integration layer between Bevy's rendering engine and
+//! Dioxus's reactive UI framework. 
 //!
 //! ## Features
 //!
 //! - **Lifecycle Management**: Bevy instances survive component unmount/remount cycles
 //! - **Lazy Initialization**: Renderers created when WGPU device is available
-//! - **Reference Counting**: Multiple component instances can share one Bevy app
+//! - **Reference Counting**: Multiple component instances shares one Bevy app
 //! - **Message Passing**: Type-safe communication between Dioxus UI and Bevy
-//! - **Proper Cleanup**: Graceful shutdown without freezing
+//! - **Proper Cleanup**: Shutdown without freezing
 //!
 //! ## Quick Start
 //!
 //! ```rust,no_run
 //! use dioxus::prelude::*;
-//! use dioxus_bevy::{BevyComponent, BevyRenderer, use_bevy_message};
+//! use dioxus_bevy::{BevyComponent};
 //!
 //! #[component]
 //! fn App() -> Element {
 //!     rsx! {
-//!         BevyComponent {
-//!             bevy_id: "my-renderer",
-//!             factory: |device| Box::new(MyBevyRenderer::new(device)),
-//!         }
+//!         MyComponent {}
 //!     }
+//! }
+//!
+//! #[bevy_component]
+//! fn my_component(app: &mut App) {
+//!     app.add_systems(Startup, setup);
 //! }
 //! ```
 
@@ -399,7 +400,7 @@ impl BevyMessageSender {
 }
 
 // ============================================================================
-// Bevy App Builder (minimal boilerplate API)
+// Bevy App Builder
 // ============================================================================
 
 use bevy::app::App;
@@ -542,13 +543,12 @@ pub fn asset_path(path: &str) -> String {
 }
 
 // ============================================================================
-// Ergonomic Helper Macros for Signal Handling
+// Helper Macros for Signal Handling
 // ============================================================================
 
 /// Convenient macro for extracting signal updates in Bevy systems.
 ///
-/// This makes the manual signal handling pattern feel natural and ergonomic,
-/// similar to regular Dioxus reactive code.
+/// This makes signal handling pattern similar to regular Dioxus reactive code.
 ///
 /// # Example
 ///
@@ -642,7 +642,7 @@ pub trait FromSignalUpdate: Sized {
         Self: From<T>;
 }
 
-/// Convenient wrapper for creating a Bevy renderer with minimal boilerplate
+/// Convenient wrapper for creating a Bevy renderer
 ///
 /// Provides a high-level API for embedding Bevy apps in Dioxus components.
 /// Handles texture management, WGPU device sharing, and signal passing.
