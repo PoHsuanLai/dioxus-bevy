@@ -22,6 +22,30 @@ bevy = { version = "0.17", default-features = false, features = ["bevy_render", 
 ### How It Works
 **Dioxus owns the window**, and Bevy renders to a texture that's displayed via `CustomPaintSource`:
 
+## A Quick View
+```rust
+#[component]
+fn App() -> Element {
+    rsx! {
+        div {
+            div {
+                "This is from Dioxus"
+            }
+
+            div {
+                TriangleScene {}
+            }
+        }
+    }
+}
+
+#[bevy_component]
+fn triangle_scene(app: &mut App) {
+    app.add_systems(Startup, setup_triangle);
+}
+```
+For more details see the _hello_triangle_ example
+
 ## Examples
 Run the examples:
 
