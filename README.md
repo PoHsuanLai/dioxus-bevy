@@ -39,5 +39,5 @@ cargo run --example gltf_model
 
 ## License
 
-Licensed under MIT license ([LICENSE-MIT](LICENSE-MIT))
+Licensed under MIT license
 
