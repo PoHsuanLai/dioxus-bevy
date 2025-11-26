@@ -14,16 +14,11 @@ categories = ["gui", "rendering", "graphics"]
 
 [dependencies]
 bevy = { version = "0.17", default-features = false, features = ["bevy_render", "bevy_core_pipeline"] }
-dioxus = "0.7"
+dioxus = { version = "0.7", features = ["desktop"] }
 dioxus-native = "0.7"
 
 [dev-dependencies]
-bevy = { version = "0.17", default-features = false, features = [
-    "bevy_render",
-    "bevy_core_pipeline",
-    "bevy_pbr",
-    "bevy_asset",
-] }
+bevy = "0.17"
 
 [[example]]
 name = "hello_triangle"

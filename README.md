@@ -95,19 +95,6 @@ fn App() -> Element {
 └─────────────────────────────────────┘
 ```
 
-### Why This Approach?
-
-Compared to other integration strategies:
-
-| Feature | bevy_dioxus | dioxus-in-bevy | **dioxus-bevy** |
-|---------|-------------|----------------|-----------------|
-| Who owns window? | Bevy | Bevy | **Dioxus** ✅ |
-| Production ready? | ❌ | ❌ | **✅** |
-| Lifecycle management | ❌ | ❌ | **✅** |
-| Message passing | ❌ | ❌ | **✅** |
-| Survives remounts | ❌ | ❌ | **✅** |
-| Use case | Dioxus in Bevy game | Dioxus in Bevy game | **Bevy in Dioxus app** |
-
 ## Examples
 
 Run the examples:

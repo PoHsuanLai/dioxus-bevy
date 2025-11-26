@@ -3,6 +3,7 @@
 //! Demonstrates a Bevy 3D scene embedded in Dioxus with UI controls.
 //! Shows message passing between Dioxus UI and Bevy renderer.
 
+use bevy::app::App as BevyApp;
 use bevy::prelude::*;
 use dioxus::prelude::*;
 use dioxus_bevy::{BevyComponent, BevyRenderer, use_bevy_message};
@@ -19,10 +20,13 @@ fn App() -> Element {
     let send_to_bevy = use_bevy_message("cube-scene");
 
     // Send rotation speed updates to Bevy
-    use_effect(move || {
-        let speed = *rotation_speed.read();
-        send_to_bevy.send(Box::new(CubeMessage::SetRotationSpeed(speed)));
-    });
+    {
+        let send_to_bevy = send_to_bevy.clone();
+        use_effect(move || {
+            let speed = *rotation_speed.read();
+            send_to_bevy.send(Box::new(CubeMessage::SetRotationSpeed(speed)));
+        });
+    }
 
     rsx! {
         div {
@@ -104,26 +108,21 @@ enum CubeMessage {
 
 /// Bevy renderer for a rotating 3D cube
 struct CubeRenderer {
-    app: App,
+    app: BevyApp,
 }
+
+// SAFETY: Bevy App is only accessed from the main thread via the Mutex in BevyInstanceManager
+unsafe impl Send for CubeRenderer {}
 
 impl CubeRenderer {
     fn new(_device: &DeviceHandle) -> Self {
-        let mut app = App::new();
+        let mut app = BevyApp::new();
 
-        // Add Bevy plugins
-        app.add_plugins((
-            bevy::core::TaskPoolPlugin::default(),
-            bevy::core::TypeRegistrationPlugin,
-            bevy::core::FrameCountPlugin,
-            bevy::time::TimePlugin,
-            bevy::transform::TransformPlugin,
-            bevy::hierarchy::HierarchyPlugin,
-            bevy::asset::AssetPlugin::default(),
-            bevy::render::RenderPlugin::default(),
-            bevy::core_pipeline::CorePipelinePlugin,
-            bevy::pbr::PbrPlugin::default(),
-        ));
+        // Add Bevy plugins (headless)
+        app.add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: None, // Headless
+            ..default()
+        }));
 
         // Set up the 3D scene
         app.add_systems(Startup, setup_cube_scene);
@@ -168,7 +167,7 @@ impl BevyRenderer for CubeRenderer {
     }
 
     fn shutdown(&mut self) {
-        self.app.world_mut().send_event(bevy::app::AppExit::Success);
+        self.app.world_mut().write_message(bevy::app::AppExit::Success);
         self.app.update();
     }
 }

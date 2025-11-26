@@ -3,6 +3,7 @@
 //! The simplest possible example: a Bevy app that renders a colored triangle
 //! embedded in a Dioxus UI.
 
+use bevy::app::App as BevyApp;
 use bevy::prelude::*;
 use dioxus::prelude::*;
 use dioxus_bevy::{BevyComponent, BevyRenderer};
@@ -43,26 +44,21 @@ fn App() -> Element {
 
 /// Simple Bevy renderer that draws a colored triangle
 struct TriangleRenderer {
-    app: App,
+    app: BevyApp,
 }
+
+// SAFETY: Bevy App is only accessed from the main thread via the Mutex in BevyInstanceManager
+unsafe impl Send for TriangleRenderer {}
 
 impl TriangleRenderer {
     fn new(_device: &DeviceHandle) -> Self {
-        let mut app = App::new();
+        let mut app = BevyApp::new();
 
-        // Add minimal Bevy plugins for rendering
-        app.add_plugins((
-            bevy::core::TaskPoolPlugin::default(),
-            bevy::core::TypeRegistrationPlugin,
-            bevy::core::FrameCountPlugin,
-            bevy::time::TimePlugin,
-            bevy::transform::TransformPlugin,
-            bevy::hierarchy::HierarchyPlugin,
-            bevy::diagnostic::DiagnosticsPlugin,
-            bevy::asset::AssetPlugin::default(),
-            bevy::render::RenderPlugin::default(),
-            bevy::core_pipeline::CorePipelinePlugin,
-        ));
+        // Add Bevy plugins (in a real app, use minimal plugins for headless rendering)
+        app.add_plugins(DefaultPlugins.set(WindowPlugin {
+            primary_window: None, // Headless
+            ..default()
+        }));
 
         // Set up a simple 2D camera
         app.add_systems(Startup, setup_triangle);
@@ -95,7 +91,7 @@ impl BevyRenderer for TriangleRenderer {
 
     fn shutdown(&mut self) {
         // Send quit event to Bevy
-        self.app.world_mut().send_event(bevy::app::AppExit::Success);
+        self.app.world_mut().write_message(bevy::app::AppExit::Success);
         self.app.update();
     }
 }
