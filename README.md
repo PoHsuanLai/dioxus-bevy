@@ -12,8 +12,6 @@ This crate is just a simple integration layer between [Bevy](https://bevyengine.
 
 Add to your `Cargo.toml`:
 ```toml
-```
-```toml
 [dependencies]
 dioxus = "0.7"
 dioxus-bevy = "0.1"

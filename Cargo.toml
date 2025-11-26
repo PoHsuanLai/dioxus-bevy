@@ -6,10 +6,10 @@ members = ["dioxus-bevy-macro"]
 name = "dioxus-bevy"
 version = "0.1.0"
 edition = "2021"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["PoHsuan Lai <pohsuanlai0208@gmail.com>"]
 description = "Embed Bevy rendering in Dioxus Native applications with proper lifecycle management"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/yourusername/dioxus-bevy"
+repository = "https://github.com/PoHsuanLai/dioxus-bevy"
 keywords = ["bevy", "dioxus", "ui", "renderer", "gpu"]
 categories = ["gui", "rendering", "graphics"]
 
