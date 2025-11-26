@@ -2,6 +2,9 @@
 name = "dioxus-bevy-macro"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+repository = "https://github.com/PoHsuanLai/dioxus-bevy"
+description = "Procedural macros for the dioxus-bevy crate"
 
 [lib]
 proc-macro = true
